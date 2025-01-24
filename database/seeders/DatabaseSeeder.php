@@ -22,9 +22,7 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
 
-        ComplainType::factory()->create([
-            "type" => "Complain",
-        ]);
-        Complain::factory(50)->create();
+        ComplainType::factory(50)->create();
+        // Complain::factory(50)->create();
     }
 }

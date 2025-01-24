@@ -22,29 +22,30 @@
                                         </div>
 
                                     </div>
-                                    <div class="mb-3">
-                                        <span>Search: </span>
-                                        <input type="text" id="search" @input="sendRequest" class="ml-2 rounded" v-model="filterParameters.keyword" style="height: 34px;">
+                                    <div class="mb-3 d-flex justify-between">
+                                        <div class="search">
+                                            <span>Search: </span>
+                                            <input type="text" id="search" @input="sendRequest" class="ml-2 rounded" v-model="filterParameters.keyword" style="height: 34px;">
+                                        </div>
+                                        <button type="button" @click="create" class="btn btn-info">Create Type</button>
                                     </div>
                                     <table class="table">
                                         <thead>
                                             <tr>
-                                                <th scope="col">CNIC</th>
-                                                <th scope="col">Membership Number</th>
-                                                <th scope="col">Complain Type</th>
+                                                <th scope="col">Type</th>
+                                                <th scope="col">Total Complains</th>
                                                 <th scope="col">Action</th>
 
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr v-for="complain in complains.data" :key="complain.id" :style="{'background-color': complain.highlighted ? '#D3D3D3' : ''}">
-                                                <td>{{ complain.cnic }}</td>
-                                                <td>{{ complain.membership_number }}</td>
-                                                <td>{{ complain.type.type }}</td>
+                                            <tr v-for="type in types.data" :key="type.id">
+                                                <td>{{ type.type }}</td>
+                                                <td>{{ type.complains_count }}</td>
                                                 <td>
-                                                    <Link :href="`/admin/complain/${complain.id}/highlight`" method="PUT" type="button" class="btn btn-primary" preserve-scroll>Highlight</Link>
-                                                    <Link :href="`/admin/complains/${complain.id}`" type="button" class="btn btn-secondary ml-2">View</Link>
-                                                    <Link method="DELETE" :href="`/admin/complains/${complain.id}`" class="btn btn-danger ml-2" preserve-scroll>Delete</Link>
+                                                    <button @click="update(type.type, type.id)" type="button" class="btn btn-primary" preserve-scroll>Update</button>
+                                                    <button @click="deleteModal(type.id)" class="btn btn-danger ml-2" preserve-scroll>Delete</button>
+                                                    <button type="button" class="btn btn-info ml-2">View</button>
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -52,7 +53,7 @@
                                 </div>
                                 <nav aria-label="Page navigation example">
                                     <ul class="pagination">
-                                        <Link :href="link.url" :style="{ 'background-color': !link.active ? '#f5f5f5' : '' }" class="page-item" v-for="link in complains.links" :key="link.label"><a class="page-link" href="#" v-html="link.label"></a></Link>
+                                        <Link :href="link.url" :style="{ 'background-color': !link.active ? '#f5f5f5' : '' }" class="page-item" v-for="link in types.links" :key="link.label"><a class="page-link" href="#" v-html="link.label"></a></Link>
                                     </ul>
                                 </nav>
                             </div>
@@ -77,17 +78,17 @@ const filterParameters = reactive({
 });
 
 const props = defineProps({
-    complains: Array
+    types: Array
 });
 
 // Debounced function to send request after typing
 const sendRequest = debounce(() => {
-    router.get("/admin/complains", { ...filterParameters }, { preserveScroll: true });
+    router.get("/admin/types", { ...filterParameters }, { preserveScroll: true });
 }, 500);
 
 const filter = () => {
     // Trigger the filter with updated parameters
-    router.get("/admin/complains", { ...filterParameters }, { preserveScroll: true });
+    router.get("/admin/types", { ...filterParameters }, { preserveScroll: true });
 };
 
 const reset = () => {
@@ -96,14 +97,70 @@ const reset = () => {
     filterParameters.from = "";
     filterParameters.to = "";
     // Trigger the filter with updated parameters
-    router.get("/admin/complains", { ...filterParameters }, { preserveScroll: true });
+    router.get("/admin/types", { ...filterParameters }, { preserveScroll: true });
 };
 
 onMounted(() => {
-    console.log(props.complains.links)
     // Focus on search input field if keyword is pre-populated
     if (filterParameters.keyword.length > 0) {
         document.getElementById('search').focus();
     }
 });
+
+const update = (type, id) => {
+    Swal.fire({
+  title: "Update Type",
+  input: "text",
+  inputValue: type,
+  inputAttributes: {
+    autocapitalize: "off"
+  },
+  showCancelButton: true,
+  confirmButtonText: "Look up",
+  showLoaderOnConfirm: true,
+  preConfirm: async (login) => {
+
+  },
+  allowOutsideClick: () => !Swal.isLoading()
+}).then((result) => {
+  if (result.isConfirmed) {
+    router.put(`/admin/types/${id}`, { type: result.value }, { preserveScroll: true });
+  }
+});
+}
+
+const deleteModal = id=> {
+    Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            router.delete(`/admin/types/${id}`, { preserveScroll: true });
+        }
+    })
+}
+
+const create = () => {
+    Swal.fire({
+        title: 'Create Type',
+        input: 'text',
+        inputAttributes: {
+            autocapitalize: 'off'
+        },
+        showCancelButton: true,
+        confirmButtonText: 'Create',
+        showLoaderOnConfirm: true,
+        preConfirm: async (type) => {
+            router.post('/admin/types', { type }, { preserveScroll: true });
+        },
+        allowOutsideClick: () => !Swal.isLoading()
+    })
+}
+
+
 </script>

@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Complain;
+use App\Models\ComplainType;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class ComplainTypeController extends Controller
 {
@@ -11,7 +14,23 @@ class ComplainTypeController extends Controller
      */
     public function index()
     {
-        //
+        $keyword = request()->keyword;
+        $from = request()->from;
+        $to = request()->to;
+        $types = ComplainType::withCount("complains")
+                                ->latest()
+                                ->when($from ?? false, function($query) use ($from, $to) {
+                                    $query->whereDate("created_at", ">=", $from)->whereDate("created_at", "<=", $to);
+                                })
+                                ->when($keyword ?? false, function($query) use ($keyword) {
+                                    $query->whereLike("type", "%$keyword%");
+                                })
+                                ->paginate(8)
+                                ->withQueryString();
+        return Inertia::render("Type/Index", [
+            "types" => $types
+        ]);
+
     }
 
     /**
@@ -27,7 +46,9 @@ class ComplainTypeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        ComplainType::create([
+            "type" => $request->type
+        ]);
     }
 
     /**
@@ -49,16 +70,18 @@ class ComplainTypeController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, ComplainType $type)
     {
-        //
+        $type->update([
+            "type" => $request->type
+        ]);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(ComplainType $type)
     {
-        //
+        $type->delete();
     }
 }

@@ -5,10 +5,13 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use App\Http\Controllers\ComplainTypeController;
 
 
 Route::resource("/admin/complains", ComplainController::class);
 Route::put("/admin/complain/{complain}/highlight", [ComplainController::class, "highlight"]);
+
+Route::resource("/admin/types", ComplainTypeController::class);
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [

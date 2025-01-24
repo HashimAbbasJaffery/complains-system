@@ -21,7 +21,7 @@
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 <![endif]-->
-
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     @routes
     @vite(['resources/js/app.js', "resources/js/Pages/{$page['component']}.vue"])
     @inertiaHead
@@ -154,6 +154,18 @@
                             </a>
                         </li>
                         <li class="sidebar-item">
+                            <a href="/admin/complains" class="sidebar-link waves-effect waves-dark sidebar-link" href="index.html" aria-expanded="false">
+                                <i class="mdi mdi-av-timer"></i>
+                                <span class="hide-menu">Complains</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a href="/admin/types" class="sidebar-link waves-effect waves-dark sidebar-link" href="index.html" aria-expanded="false">
+                                <i class="mdi mdi-av-timer"></i>
+                                <span class="hide-menu">Types</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
                             <a class="sidebar-link waves-effect waves-dark sidebar-link" href="pages-profile.html" aria-expanded="false">
                                 <i class="mdi mdi-account-network"></i>
                                 <span class="hide-menu">Profile</span>
@@ -208,7 +220,6 @@
             <div class="page-breadcrumb">
                 <div class="row">
                     <div class="col-5 align-self-center">
-                        <h4 class="page-title">Basic Table</h4>
                     </div>
                     <div class="col-7 align-self-center">
                         <div class="d-flex align-items-center justify-content-end">
@@ -217,7 +228,6 @@
                                     <li class="breadcrumb-item">
                                         <a href="#">Home</a>
                                     </li>
-                                    <li class="breadcrumb-item active" aria-current="page">Basic Table</li>
                                 </ol>
                             </nav>
                         </div>
@@ -235,7 +245,7 @@
                 <!-- Start Page Content -->
                 <!-- ============================================================== -->
 
-                
+
                 @inertia
                 {{-- <div class="row">
                     <div class="col-12">
