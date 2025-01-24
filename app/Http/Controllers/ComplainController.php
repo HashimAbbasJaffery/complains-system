@@ -13,7 +13,21 @@ class ComplainController extends Controller
      */
     public function index()
     {
-        $complains = Complain::with("type")->paginate(1)->withQueryString();
+        $keyword = request()->keyword;
+        $from = request()->from;
+        $to = request()->to;
+        $complains = Complain::with("type")
+                                ->latest()
+                                ->when($from ?? false, function($query) use ($from, $to) {
+                                    $query->whereDate("created_at", ">=", $from)->whereDate("created_at", "<=", $to);
+                                })
+                                ->when($keyword ?? false, function($query) use ($keyword) {
+                                    $query->whereLike("cnic", "%$keyword%")
+                                    ->orWhereLike("complain", "%$keyword%")
+                                    ->orWhereLike("membership_number", "%$keyword%");
+                                })
+                                ->paginate(8)
+                                ->withQueryString();
         return Inertia::render("Complain/Index", [
             "complains" => $complains
         ]);
