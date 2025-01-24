@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string("complain");
             $table->foreignId("type_id")->constrained("complain_types")->cascadeOnDelete();
             $table->string("membership_number");
-
+            $table->boolean("highlighted")->default(false);
             $table->timestamps();
         });
     }

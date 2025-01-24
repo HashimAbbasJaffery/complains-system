@@ -13,7 +13,7 @@ class ComplainController extends Controller
      */
     public function index()
     {
-        $complains = Complain::with("type")->paginate(10);
+        $complains = Complain::with("type")->paginate(1)->withQueryString();
         return Inertia::render("Complain/Index", [
             "complains" => $complains
         ]);
@@ -40,6 +40,7 @@ class ComplainController extends Controller
      */
     public function show(Complain $complain)
     {
+        $complain->load("type");
         return Inertia::render("Complain/Single", [
             "complain" => $complain
         ]);
@@ -61,11 +62,17 @@ class ComplainController extends Controller
         //
     }
 
+    public function highlight(Complain $complain) {
+        $complain->update([
+            "highlighted" => !$complain->highlighted
+        ]);
+    }
+
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Complain $complain)
     {
-        //
+        $complain->delete();
     }
 }

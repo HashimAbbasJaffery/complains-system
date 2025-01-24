@@ -8,7 +8,7 @@ use Inertia\Inertia;
 
 
 Route::resource("/admin/complains", ComplainController::class);
-
+Route::put("/admin/complain/{complain}/highlight", [ComplainController::class, "highlight"]);
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
