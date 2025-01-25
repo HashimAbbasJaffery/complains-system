@@ -44,8 +44,8 @@
                                                 <td>{{ type.complains_count }}</td>
                                                 <td>
                                                     <button @click="update(type.type, type.id)" type="button" class="btn btn-primary" preserve-scroll>Update</button>
-                                                    <button @click="deleteModal(type.id)" class="btn btn-danger ml-2" preserve-scroll>Delete</button>
-                                                    <button type="button" class="btn btn-info ml-2">View</button>
+                                                    <button v-if="$page.props?.auth?.user?.admin" @click="deleteModal(type.id)" class="btn btn-danger ml-2" preserve-scroll>Delete</button>
+                                                    <Link :href="`/admin/${type.id}/questions`" type="button" class="btn btn-info ml-2">View</Link>
                                                 </td>
                                             </tr>
                                         </tbody>

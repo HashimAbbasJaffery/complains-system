@@ -1,5 +1,6 @@
 <template>
 <div class="row">
+                    
                     <div class="col-12">
                         <div class="card">
                             <div class="card-body">
@@ -16,6 +17,7 @@
                                         </div>
                                         <div >
                                             <button type="button" @click="filter" class="btn btn-primary">Filter</button>
+
                                             <button type="button" @click="reset" class="btn btn-secondary ml-2">Reset</button>
                                         </div>
 
@@ -40,9 +42,9 @@
                                                 <td>{{ complain.membership_number }}</td>
                                                 <td>{{ complain.type.type }}</td>
                                                 <td>
-                                                    <Link v-if="$page.props?.auth?.user?.admin" :href="`/admin/complain/${complain.id}/highlight`" method="PUT" type="button" class="btn btn-primary" preserve-scroll>Highlight</Link>
+                                                    <Link :href="`/admin/complain/${complain.id}/highlight`" method="PUT" type="button" class="btn btn-primary" preserve-scroll>Highlight</Link>
                                                     <Link :href="`/admin/complains/${complain.id}`" type="button" class="btn btn-secondary ml-2">View</Link>
-                                                    <Link v-if="$page.props?.auth?.user?.admin" @click="deleteModal(complain.id)" class="btn btn-danger ml-2" preserve-scroll>Delete</Link>
+                                                    <Link method="DELETE" @click="deleteModal(complain.id)" class="btn btn-danger ml-2" preserve-scroll>Delete</Link>
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -105,19 +107,7 @@ onMounted(() => {
     }
 });
 
-const deleteModal = id => {
-    Swal.fire({
-        title: 'Are you sure?',
-        text: "You won't be able to revert this!",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes, delete it!'
-    }).then((result) => {
-        if (result.isConfirmed) {
-            router.delete(`/admin/complains/${id}`, { preserveScroll: true })
-        }
-    })
+const deleteModal = () => {
+    // `/admin/complains/${complain.id}`
 }
 </script>

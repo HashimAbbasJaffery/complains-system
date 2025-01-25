@@ -2,16 +2,27 @@
 
 use App\Http\Controllers\ComplainController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\QuestionController;
+use App\Http\Controllers\UserController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\ComplainTypeController;
 
+Route::middleware(['auth'])->group(function () {
+    Route::resource("/admin/complains", ComplainController::class);
+    Route::resource("/admin/types", ComplainTypeController::class);
+    Route::resource("/admin/users", UserController::class);
 
-Route::resource("/admin/complains", ComplainController::class);
-Route::put("/admin/complain/{complain}/highlight", [ComplainController::class, "highlight"]);
+    Route::get("/admin/{type}/questions", [QuestionController::class, "index"])->name("admin.questions");
+    Route::put("/admin/question/{question}/edit", [QuestionController::class, "update"]);
+    Route::delete("/admin/question/{question}/delete", [QuestionController::class, "destroy"]);
+    Route::get("/admin/question/{type}/create", [QuestionController::class, "create"]);
+    Route::post("/admin/question/{type}/create", [QuestionController::class, "store"]);
 
-Route::resource("/admin/types", ComplainTypeController::class);
+    Route::put("/admin/complain/{complain}/highlight", [ComplainController::class, "highlight"]);
+});
+
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [

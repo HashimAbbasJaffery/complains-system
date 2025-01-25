@@ -14,4 +14,7 @@ class ComplainType extends Model
     public function complains() {
         return $this->hasMany(Complain::class, "type_id");
     }
+    public function questions() {
+        return $this->hasMany(Question::class, "complain_type_id");
+    }
 }

@@ -22,7 +22,8 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
 
+        User::factory(50)->create();
         ComplainType::factory(50)->create();
-        // Complain::factory(50)->create();
+        Complain::factory(50)->create();
     }
 }
