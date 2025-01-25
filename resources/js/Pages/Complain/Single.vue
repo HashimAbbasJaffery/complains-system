@@ -24,8 +24,10 @@
 <template>
 <div class="row">
     <div class="col-12">
+        
         <div class="card">
             <div class="card-body">
+                <h1 style="font-size: 20px; font-weight: bold;" class="mb-3">View Complain</h1>
                 <div class="complain">
                     <div class="row">
                         <div class="type">CNIC:</div>

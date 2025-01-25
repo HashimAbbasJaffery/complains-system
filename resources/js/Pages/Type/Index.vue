@@ -4,6 +4,7 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-body">
+                                <h1 style="font-size: 20px; font-weight: bold;" class="mb-3">Types</h1>
                                 <div class="table-responsive">
                                     <div class="dates d-flex justify-start gap-4">
                                         <div class="mb-3">
