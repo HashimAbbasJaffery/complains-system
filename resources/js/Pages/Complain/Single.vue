@@ -40,6 +40,10 @@
                         <div class="content">{{ complain.type.type }}</div>
                     </div>
                     <div class="row">
+                        <div class="type">Question:</div>
+                        <div class="content">{{ complain.question.question }}</div>
+                    </div>
+                    <div class="row">
                         <div class="type">Complain:</div>
                         <div class="content">
                             {{ complain.complain }}
