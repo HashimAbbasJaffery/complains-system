@@ -22,6 +22,7 @@
 </style>
 
 <template>
+<authenticated-layout>
 <div class="row">
     <div class="col-12">
         <div class="card">
@@ -51,10 +52,12 @@
         </div>
     </div>
 </div>
+</authenticated-layout>
 </template>
 
 <script setup>
 import { Link } from '@inertiajs/vue3';
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 
 const props = defineProps({
     complain: Array

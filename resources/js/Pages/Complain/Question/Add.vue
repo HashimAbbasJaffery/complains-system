@@ -25,23 +25,24 @@ input {
 </style>
 
 <template>
+<authenticated-layout>
 <div class="row">
     <div class="col-12">
         <div class="card">
             <div class="card-body">
                 <div class="complain">
-              
+
                     <div class="form-group">
                         <label for="example-email">Question</label>
                         <div v-if="$page.props?.errors?.name" class="text-danger mb-1">{{ $page.props?.errors?.name }}</div>
                         <input type="text" v-model="form.question" name="name" class="form-control" :class="{ 'border-danger': $page.props?.errors?.name }" placeholder="Question">
                     </div>
                 </div>
-                
+
                 <div class="complain">
                     <div class="form-group">
                         <label for="example-email">Is Relevant</label>
-                        
+
                         <div v-if="$page.props?.errors?.admin" class="text-danger mb-1">{{ $page.props?.errors?.admin }}</div>
                         <select class="form-control" :class="{ 'border-danger': $page.props?.errors?.admin }" v-model="form.is_relevant" name="admin">
                             <option value="1" selected>Relevant</option>
@@ -62,12 +63,14 @@ input {
         </div>
     </div>
 </div>
+</authenticated-layout>
 </template>
 
 <script setup>
 import { Link } from '@inertiajs/vue3';
 import { reactive } from 'vue';
 import { router } from '@inertiajs/vue3';
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 
 const form = reactive({
     question: "",

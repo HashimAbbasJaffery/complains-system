@@ -1,4 +1,5 @@
 <template>
+<authenticated-layout>
 <div class="row">
 
                     <div class="col-12">
@@ -60,13 +61,15 @@
                             </div>
                         </div>
                     </div>
-                </div>
+</div>
+</authenticated-layout>
 </template>
 
 <script setup>
 import { onMounted, reactive } from 'vue';
 import { Link, router } from '@inertiajs/vue3'
 import debounce from 'lodash/debounce';
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 
 const url = new URL(window.location.href);
 const queryParams = new URLSearchParams(url.search);

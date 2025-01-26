@@ -22,39 +22,42 @@
 </style>
 
 <template>
-<div class="row">
-    <div class="col-12">
-        <div class="card">
-            <div class="card-body">
-                <div class="complain">
-                    <div class="row">
-                        <div class="type">CNIC:</div>
-                        <div class="content">{{ complain.cnic }}</div>
-                    </div>
-                    <div class="row">
-                        <div class="type">Membership Number:</div>
-                        <div class="content">{{ complain.membership_number }}</div>
-                    </div>
-                    <div class="row">
-                        <div class="type">Type:</div>
-                        <div class="content">{{ complain.type.type }}</div>
-                    </div>
-                    <div class="row">
-                        <div class="type">Complain:</div>
-                        <div class="content">
-                            {{ complain.complain }}
+<authenticated-layout>
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="complain">
+                        <div class="row">
+                            <div class="type">CNIC:</div>
+                            <div class="content">{{ complain.cnic }}</div>
+                        </div>
+                        <div class="row">
+                            <div class="type">Membership Number:</div>
+                            <div class="content">{{ complain.membership_number }}</div>
+                        </div>
+                        <div class="row">
+                            <div class="type">Type:</div>
+                            <div class="content">{{ complain.type.type }}</div>
+                        </div>
+                        <div class="row">
+                            <div class="type">Complain:</div>
+                            <div class="content">
+                                {{ complain.complain }}
+                            </div>
                         </div>
                     </div>
+                    <Link href="/admin/complains" type="button" class="btn btn-primary mt-3">Go Back</Link>
                 </div>
-                <Link href="/admin/complains" type="button" class="btn btn-primary mt-3">Go Back</Link>
             </div>
         </div>
     </div>
-</div>
+</authenticated-layout>
 </template>
 
 <script setup>
 import { Link } from '@inertiajs/vue3';
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 
 const props = defineProps({
     complain: Array

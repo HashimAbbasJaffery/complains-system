@@ -23,6 +23,8 @@ Route::middleware(['auth'])->group(function () {
     Route::put("/admin/complain/{complain}/highlight", [ComplainController::class, "highlight"]);
 });
 
+Route::get("/complain", [\App\Http\Controllers\User\ComplainController::class, "index"])->name("complain.index");
+
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
