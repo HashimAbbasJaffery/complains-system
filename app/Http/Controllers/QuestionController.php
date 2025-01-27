@@ -19,7 +19,8 @@ class QuestionController extends Controller
         $questions = $type->questions;
         return Inertia::render("Complain/Question/Questions", [
             "questions" => $questions,
-            "id" => $type->id
+            "id" => $type->id,
+            "type" => $type
         ]);
     }
 
@@ -65,7 +66,7 @@ class QuestionController extends Controller
      */
     public function update(QuestionRequest $request, Question $question)
     {
-        $question->update($request->validated());
+        $question->update([...$request->validated(), "answer" => $request->answer]);
     }
 
     /**

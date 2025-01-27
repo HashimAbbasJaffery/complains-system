@@ -24,6 +24,7 @@ Route::middleware(['auth'])->group(function () {
 });
 
 Route::get("/complain", [\App\Http\Controllers\User\ComplainController::class, "index"])->name("complain.index");
+Route::post("/complain", [\App\Http\Controllers\User\ComplainController::class, "store"]);
 
 
 Route::get('/', function () {

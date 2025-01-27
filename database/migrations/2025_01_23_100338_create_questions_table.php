@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string("question");
             $table->boolean("is_relevant");
-            $table->string("answer");
+            $table->text("answer")->nullable();
             $table->foreignId("complain_type_id")->constrained("complain_types")->cascadeOnDelete();
             $table->timestamps();
         });

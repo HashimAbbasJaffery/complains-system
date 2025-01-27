@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('complains', function (Blueprint $table) {
             $table->id();
             $table->string("cnic");
-            $table->string("complain");
+            $table->text("complain");
             $table->foreignId("type_id")->constrained("complain_types")->cascadeOnDelete();
             $table->foreignId("question_id")->constrained("questions")->cascadeOnDelete();
             $table->string("membership_number");

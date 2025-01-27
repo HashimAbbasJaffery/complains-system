@@ -48,8 +48,7 @@
                         </div>
                         <div class="row">
                             <div class="type">Complain:</div>
-                            <div class="content">
-                                {{ complain.complain }}
+                            <div class="content" v-html="convertNewlines(complain.complain)">
                             </div>
                         </div>
                     </div>
@@ -69,5 +68,7 @@ const props = defineProps({
     complain: Array
 });
 
-console.log(props.complain);
+const convertNewlines = (str) => {
+    return str.replace(/\n/g, "<br>");
+}
 </script>

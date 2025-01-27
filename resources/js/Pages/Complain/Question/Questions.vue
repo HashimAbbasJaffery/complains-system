@@ -29,7 +29,7 @@
             <div class="card-body">
                 <div class="complain">
                     <div class="top-header d-flex justify-between items-center mb-3">
-                        <h1 style="font-size: 20px; font-weight: bold;">Questions</h1>
+                        <h1 style="font-size: 20px; font-weight: bold;">{{ type.type }} Questions</h1>
                         <Link :href="`/admin/question/${id}/create`" type="button" class="btn btn-primary">Create Question</Link>
                     </div>
                     <div v-if="questions.length">
@@ -59,7 +59,8 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 
 const props = defineProps({
     questions: Object,
-    id: String
+    id: String,
+    type: Object
 })
 
 </script>

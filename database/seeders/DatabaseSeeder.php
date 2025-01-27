@@ -22,10 +22,10 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
-
-        ComplainType::factory(50)->create();
-        Question::factory(50)->create();
-        User::factory(50)->create();
-        Complain::factory(50)->create();
+        $total = 10;
+        // ComplainType::factory($total)->create();
+        // Question::factory($total)->create();
+        User::factory($total)->create();
+        // Complain::factory($total)->create();
     }
 }
