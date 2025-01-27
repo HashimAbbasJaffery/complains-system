@@ -26,65 +26,111 @@
 * {
     font-family: "Lato", serif;
 }
+
+/* Step transitions */
+.step-transition-leave-active {
+    transition: all 0s ease;
+}
+.step-transition-enter-active {
+    transition: all 0.5s ease;
+}
+
+.step-transition-enter-from {
+    opacity: 0;
+    transform: translateX(-50px);
+}
+.step-transition-enter-to {
+    opacity: 1;
+    transform: translateX(0);
+}
+.step-transition-leave-from {
+    opacity: 1;
+    transform: translateX(0);
+}
+.step-transition-leave-to {
+    opacity: 0;
+    transform: translateX(50px);
+}
 </style>
 
 <template>
     <header class="d-flex justify-content-center">
-        <div class="logo d-flex align-items-center justify-between" style="width: 60%; margin: 0 auto; position: fixed; top: 0px; background: white;">
+        <div class="logo d-flex align-items-center mb-5 justify-between" style="width: 60%; margin: 0 auto; background: white;">
             <img src="/assets/images/black_logo.png" width="100" alt="">
             <h1 style="font-size: 20px; font-weight: 500;">Complain Form</h1>
         </div>
     </header>
-    <div class="d-flex justify-content-center flex-column steps-container" style="height: 50vh; margin-top: 150px;">
-        <div v-if="current_step === 1" class="step step-1 mt-5" style="width: 60%; margin: 0 auto;">
-            <div class="form-group">
-                <label for="cnic">CNIC</label>
-                <input type="text" id="cnic" v-model="cnic" class="form-control" placeholder="Enter CNIC">
-            </div>
-            <div class="form-group">
-                <label for="membership_no">Membership Number</label>
-                <input type="text" v-model="membership_number" class="form-control" id="membership_no" placeholder="Membership Number">
-            </div>
-            <div class="form-group">
-                <label for="membership_no">Member Name</label>
-                <input type="text" v-model="member_name" class="form-control" id="membership_no" placeholder="Member Name" readonly>
-            </div>
-        </div>
-
-        <div class="step step-2" v-if="current_step === 2" style="width: 60%; margin: 0 auto;">
-            <h1 style="font-size: 20px;" class="mb-2">Complain Type</h1>
-            <div class="types d-flex gap-2 flex-wrap" >
-                <div v-for="type in types" @click="selectType(type.id)" class="type border border-dark p-2 rounded-md mb-1 text-center" style="width: 32.33%; cursor: pointer;">
-                    {{ type.type }}
+    <div class="d-flex justify-content-center flex-column steps-container">
+        <Transition name="step-transition">
+            <div v-if="current_step === 1" class="step step-1 mt-5" style="width: 60%; margin: 0 auto;">
+                <div class="form-group">
+                    <label for="cnic">CNIC</label>
+                    <input type="text" id="cnic" v-model="cnic" class="form-control" placeholder="Enter CNIC">
+                </div>
+                <div class="form-group">
+                    <label for="membership_no">Membership Number</label>
+                    <input type="text" v-model="membership_number" class="form-control" id="membership_no" placeholder="Membership Number">
+                </div>
+                <div class="form-group">
+                    <label for="membership_no">Member Name</label>
+                    <input type="text" v-model="member_name" class="form-control" id="membership_no" placeholder="Member Name" readonly>
                 </div>
             </div>
-        </div>
+        </Transition>
 
-        <div class="step step-3" v-if="current_step === 3" style="width: 60%; margin: 0 auto;">
-            <h1 style="font-size: 20px;" class="mb-2">Questions</h1>
-            <div class="questions d-flex justify-content-between flex-wrap" >
-                <div @click="finalStep(question.id, question.is_relevant)" v-for="question in questions.filter(question => question.complain_type_id == complain_type_id)" class="question border border-dark py-2 px-3 rounded-md mb-3 d-flex justify-between align-items-center" style="width: 100%; cursor: pointer;">
-                    {{ question.question }}
-                    <i class="fa-solid fa-arrow-right"></i>
+        <Transition name="step-transition">
+            <div class="step step-2 d-flex" v-if="current_step === 2" style="width: 60%; margin: 0 auto;">
+                <div>
+                    <h1 style="font-size: 20px; color: black;" class="mb-2">Complain Type</h1>
+                    <div class="types d-flex gap-2 flex-wrap" >
+                        <div :key="type.id" v-for="type in types" @click="selectType(type.id)" class="type border border-dark p-2 rounded-md mb-1 text-center" style="width: 32.33%; cursor: pointer; color: black;">
+                            {{ type.type }}
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="step-4" v-if="current_step === 4 && !is_relevant" style="width: 60%; margin: 0 auto;">
-            <h1 style="font-size: 20px; font-weight: 500;" class="mb-3">{{ questions.filter(quest => quest.id == question_id)[0].question }}</h1>
-            <p v-html="convertNewlines(questions.filter(quest => quest.id == question_id)[0].answer)">
-            </p>
-        </div>
-        <div class="step step-4" v-if="current_step === 4 && !completed && is_relevant" style="width: 60%; margin: 0 auto;">
-            <div class="mb-3">
-                <label for="complain" class="form-label">Write Complain</label>
-                <textarea class="form-control rounded-md" style="border: 1px solid black; height: 200px; resize: none" v-model="complain" id="complain" rows="3"></textarea>
-            </div>
-        </div>
+        </Transition>
 
-        <div class="thank-you text-center" v-if="completed" style="width: 60%; margin: 0 auto;">
-            <h1 style="font-size: 20px; font-weight: 500;">Thank You!</h1>
-            <p>We have saved your complain. we will try to respond you as soon as possible.</p>
-        </div>
+        <Transition name="step-transition">
+            <div class="step step-3" v-if="current_step === 3" style="width: 60%; margin: 0 auto;">
+                <h1 style="font-size: 20px;" class="mb-2">Questions</h1>
+                <div class="questions d-flex justify-content-between flex-wrap" >
+                    <div :key="question.id" @click="finalStep(question.id, question.is_relevant)" v-for="question in questions.filter(question => question.complain_type_id == complain_type_id)" class="question border border-dark py-2 px-3 rounded-md mb-3 d-flex justify-between align-items-center" style="width: 100%; cursor: pointer; color: black">
+                        {{ question.question }}
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </div>
+                </div>
+            </div>
+        </Transition>
+
+        <Transition name="step-transition">
+            <div class="step-4" v-if="current_step === 4 && !is_relevant" style="width: 60%; margin: 0 auto;">
+                <h1 style="font-size: 20px; font-weight: 500;" class="mb-3">{{ questions.filter(quest => quest.id == question_id)[0].question }}</h1>
+                <p v-html="convertNewlines(questions.filter(quest => quest.id == question_id)[0].answer)">
+                </p>
+            </div>
+        </Transition>
+        <Transition name="step-transition">
+            <div class="step step-4" v-if="current_step === 4 && !completed && is_relevant" style="width: 60%; margin: 0 auto;">
+                <div class="mb-3">
+                    <label for="complain" class="form-label">Write Complain</label>
+                    <textarea class="form-control rounded-md" style="border: 1px solid black; height: 200px; resize: none" v-model="complain" id="complain" rows="3"></textarea>
+                </div>
+            </div>
+        </Transition>
+
+        <Transition name="step-transition">
+            <div class="thank-you text-center" v-if="completed" style="width: 60%; margin: 0 auto;">
+                <DotLottieVue
+                src="https://lottie.host/89f240ca-38d3-4ac5-9baf-ca33726e69cb/yBUZqRgh9W.lottie"
+                background="transparent"
+                speed="1"
+                style="width: 180px; height: 180px; margin: 0 auto;"
+                autoplay
+                ></DotLottieVue>
+                <p style="font-size: 20px;">We have received your complain. We will try to respond as soon as possible</p>
+            </div>
+        </Transition>
 
         <div class="actions d-flex gap-2 mt-3" style="width: 60%; margin: 0 auto;" v-if="!completed">
             <button type="button" v-if="current_step > 1" @click="current_step--" style="width: 100%" class="btn btn-info">Previous</button>
@@ -101,8 +147,9 @@
 </template>
 <script setup>
 
-import { ref, watch, watchEffect } from 'vue';
+import { ref, Transition, watch, watchEffect } from 'vue';
 import { router } from '@inertiajs/vue3';
+import { DotLottieVue } from '@lottiefiles/dotlottie-vue';
 
 const current_step = ref(1);
 const submission_allowed = ref(true);

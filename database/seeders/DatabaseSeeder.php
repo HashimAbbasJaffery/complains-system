@@ -23,9 +23,9 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
         $total = 10;
-        // ComplainType::factory($total)->create();
-        // Question::factory($total)->create();
+        ComplainType::factory($total)->create();
+        Question::factory($total)->create();
         User::factory($total)->create();
-        // Complain::factory($total)->create();
+        Complain::factory($total)->create();
     }
 }
