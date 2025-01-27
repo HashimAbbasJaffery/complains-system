@@ -15,8 +15,12 @@ input, select {
             <span class="badge badge-primary">{{ question.is_relevant ? "Relevant" : "Irrelevant" }}</span>
         </div>
         <div class="right-side-items d-flex gap-2">
-            <button type="button" class="btn btn-primary" @click="is_hidden = !is_hidden">Update</button>
-            <button type="button" v-if="$page.props?.auth?.user?.admin" @click="deleteModal" class="btn btn-danger">Delete</button>
+            <button type="button" class="btn btn-primary" @click="is_hidden = !is_hidden">
+                <i class="fa-solid fa-pen-to-square"></i>
+            </button>
+            <button type="button" v-if="$page.props?.auth?.user?.admin" @click="deleteModal" class="btn btn-danger">
+                <i class="fa-solid fa-trash"></i>
+            </button>
         </div>
     </div>
     <div class="mt-3" v-if="!is_hidden">

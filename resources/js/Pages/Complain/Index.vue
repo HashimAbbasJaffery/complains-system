@@ -17,8 +17,12 @@
                                                 <input type="date" id="to" class="ml-2" v-model="filterParameters.to" style="height: 34px;">
                                             </div>
                                             <div >
-                                                <button type="button" @click="filter" class="btn btn-primary">Filter</button>
-                                                <button type="button" @click="reset" class="btn btn-secondary ml-2">Reset</button>
+                                                <button type="button" @click="filter" class="btn btn-primary">
+                                                    <i class="fa-solid fa-filter"></i>
+                                                </button>
+                                                <button type="button" @click="reset" class="btn btn-secondary ml-2">
+                                                    <i class="fa-solid fa-arrows-rotate"></i>
+                                                </button>
                                             </div>
 
                                         </div>
@@ -42,9 +46,15 @@
                                                     <td>{{ complain.membership_number }}</td>
                                                     <td>{{ complain.type.type }}</td>
                                                     <td>
-                                                        <Link v-if="$page.props?.auth?.user?.admin" :href="`/admin/complain/${complain.id}/highlight`" method="PUT" type="button" class="btn btn-primary" preserve-scroll>Highlight</Link>
-                                                        <Link :href="`/admin/complains/${complain.id}`" type="button" class="btn btn-secondary ml-2">View</Link>
-                                                        <Link v-if="$page.props?.auth?.user?.admin" @click="deleteModal(complain.id)" class="btn btn-danger ml-2" preserve-scroll>Delete</Link>
+                                                        <Link v-if="$page.props?.auth?.user?.admin" :href="`/admin/complain/${complain.id}/highlight`" method="PUT" type="button" class="btn btn-primary" preserve-scroll>
+                                                            <i class="fa-solid fa-highlighter"></i>
+                                                        </Link>
+                                                        <Link :href="`/admin/complains/${complain.id}`" type="button" class="btn btn-secondary ml-2">
+                                                            <i class="fa-solid fa-eye"></i>
+                                                        </Link>
+                                                        <Link v-if="$page.props?.auth?.user?.admin" @click="deleteModal(complain.id)" class="btn btn-danger ml-2" preserve-scroll>
+                                                            <i class="fa-solid fa-trash"></i>
+                                                        </Link>
                                                     </td>
                                                 </tr>
                                             </tbody>

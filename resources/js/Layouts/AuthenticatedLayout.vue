@@ -4,6 +4,12 @@ import { Link } from '@inertiajs/vue3';
 
 </script>
 
+<style>
+    input {
+        border: 1px solid #e5e7eb !important;
+    }
+</style>
+
 <template>
     <div id="main-wrapper" data-theme="light" data-layout="vertical" data-sidebartype="full" data-boxed-layout="full">
 
@@ -33,7 +39,10 @@ import { Link } from '@inertiajs/vue3';
                             </Link>
                         </li>
                     </ul>
-                    <Link method="POST" href="/logout" class="btn btn-danger mt-3 rounded-md" style="width: 90%; background: #fa5838 !important; margin-left: 5%;">Logout</Link>
+                    <Link method="POST" href="/logout" class="btn btn-danger mt-3 rounded-md" style="width: 90%; background: #fa5838 !important; margin-left: 5%;">
+                        <span class="mr-3">Logout</span>
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                    </Link>
                 </nav>
                 <!-- End Sidebar navigation -->
 

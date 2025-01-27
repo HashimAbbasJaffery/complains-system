@@ -18,9 +18,13 @@
                                             <input type="date" id="to" class="ml-2" v-model="filterParameters.to" style="height: 34px;">
                                         </div>
                                         <div >
-                                            <button type="button" @click="filter" class="btn btn-primary">Filter</button>
+                                            <button type="button" @click="filter" class="btn btn-primary">
+                                                <i class="fa-solid fa-filter"></i>
+                                            </button>
 
-                                            <button type="button" @click="reset" class="btn btn-secondary ml-2">Reset</button>
+                                            <button type="button" @click="reset" class="btn btn-secondary ml-2">
+                                                <i class="fa-solid fa-arrows-rotate"></i>
+                                            </button>
                                         </div>
 
                                     </div>
@@ -46,8 +50,12 @@
                                                 <td>{{ user.fullname }}</td>
                                                 <td>{{ user.role ? "Admin" : "User" }}</td>
                                                 <td>
-                                                    <Link :href="`/admin/users/${user.id}/edit`" type="button" class="btn btn-primary" preserve-scroll>Update</Link>
-                                                    <button @click="deleteModal(user.id)" class="btn btn-danger ml-2" preserve-scroll v-if="$page.props?.auth?.user?.admin">Delete</button>
+                                                    <Link :href="`/admin/users/${user.id}/edit`" type="button" class="btn btn-primary" preserve-scroll>
+                                                        <i class="fa-solid fa-pen-to-square"></i>
+                                                    </Link>
+                                                    <button @click="deleteModal(user.id)" class="btn btn-danger ml-2" preserve-scroll v-if="$page.props?.auth?.user?.admin">
+                                                        <i class="fa-solid fa-trash"></i>
+                                                    </button>
                                                 </td>
                                             </tr>
                                         </tbody>

@@ -17,6 +17,6 @@ class Complain extends Model
         return $this->belongsTo(Question::class);
     }
     public function member() {
-        return $this->belongsTo(Member::class, "cnic_passport")->on("second_mysql");
+        return $this->belongsTo(Member::class, "cnic", "cnic_passport");
     }
 }

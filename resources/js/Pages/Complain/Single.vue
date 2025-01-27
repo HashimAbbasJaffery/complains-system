@@ -17,7 +17,7 @@
     padding: 10px 10px;
 }
 .complain:last-child {
-    border-bottom: 1px solid #e5e7eb;
+    border-bottom: 1px solid #e5e7eb !important;
 }
 </style>
 
