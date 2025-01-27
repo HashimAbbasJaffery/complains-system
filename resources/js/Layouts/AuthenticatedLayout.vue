@@ -9,7 +9,7 @@ import { Link } from '@inertiajs/vue3';
 
         <aside class="left-sidebar" style="padding-top: 0px;" data-sidebarbg="skin5">
             <!-- Sidebar scroll-->
-            <div class="scroll-sidebar">
+            <div class="scroll-sidebar d-flex flex-col justify-content-between">
                 <!-- Sidebar navigation-->
                 <nav class="sidebar-nav">
                     <ul id="sidebarnav">
@@ -36,11 +36,15 @@ import { Link } from '@inertiajs/vue3';
                     <Link method="POST" href="/logout" class="btn btn-danger mt-3 rounded-md" style="width: 90%; background: #fa5838 !important; margin-left: 5%;">Logout</Link>
                 </nav>
                 <!-- End Sidebar navigation -->
+
+                <div class="loggedin-user" style="padding-left: 15px;">
+                    <p>Loggedin as: <span style="font-weight: bold;">{{ $page.props.auth.user.name }}</span></p>
+                </div>
             </div>
             <!-- End Sidebar scroll-->
         </aside>
         <div class="page-wrapper">
-            <div class="container-fluid">
+            <div class="container-fluid mb-2">
                 <slot></slot>
             </div>
             <!-- ============================================================== -->

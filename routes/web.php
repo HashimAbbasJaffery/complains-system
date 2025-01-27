@@ -5,9 +5,21 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\UserController;
 use Illuminate\Foundation\Application;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\ComplainTypeController;
+
+Route::get("/members", function(Request $request) {
+    $cnic = $request->cnic;
+    $membership_no = request()->membership_no;
+    $results = DB::connection("second_mysql")
+                    ->table("members_2")
+                    ->where("cnic_passport", $cnic)
+                    ->where("membership_no", $membership_no)
+                    ->first();
+    return $results;
+});
 
 Route::middleware(['auth'])->group(function () {
     Route::resource("/admin/complains", ComplainController::class);

@@ -62,6 +62,21 @@ return [
             ]) : [],
         ],
 
+        'second_mysql' => [
+            'driver' => 'mysql',
+            'host' => env('SECOND_DB_HOST', '127.0.0.1'),
+            'port' => env('SECOND_DB_PORT', '3306'),
+            'database' => env('SECOND_DB_DATABASE', 'your_second_db'),
+            'username' => env('SECOND_DB_USERNAME', 'your_db_user'),
+            'password' => env('SECOND_DB_PASSWORD', 'your_db_password'),
+            'unix_socket' => env('DB_SOCKET', ''),
+            'charset' => 'utf8mb4',
+            'collation' => 'utf8mb4_unicode_ci',
+            'prefix' => '',
+            'strict' => true,
+            'engine' => null,
+        ],
+
         'mariadb' => [
             'driver' => 'mariadb',
             'url' => env('DB_URL'),
