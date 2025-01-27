@@ -1,27 +1,33 @@
 <style scoped>
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
 
 .type {
-    transition: .5s;
+    transition: 0.5s;
 }
 
 .type:hover {
     transform: scale(1.04);
     border: 1px solid green;
+    background-color: rgb(233, 233, 233);
 }
 
 @media (max-width: 768px) {
-  .logo {
-    flex-direction: column; 
-  }
-  .type {
-    width: 100% !important;
-  }
-  .step {
-    width: 70% !important;
-  }
+    .logo {
+        display: flex;
+        flex-direction: column;
+    }
+    .type {
+        width: 100% !important;
+    }
+    .step {
+        width: 70% !important;
+    }
 }
-
+* {
+    font-family: "Lato", serif;
+}
 </style>
+
 <template>
     <header class="d-flex justify-content-center">
         <div class="logo d-flex align-items-center justify-between" style="width: 60%; margin: 0 auto; position: fixed; top: 0px; background: white;">
@@ -85,7 +91,7 @@
             <button type="button" @click="nextStep" v-if="current_step <= 1" style="width: 100%" class="btn btn-info">Next</button>
             <button type="button" @click="submit" v-if="current_step === 4 && submission_allowed && is_relevant" style="width: 100%" class="btn btn-info">Submit</button>
         </div>
-        <div class="steps mx-auto mt-3 d-flex gap-1" v-if="!completed">
+        <div class="steps mx-auto mt-3 d-flex gap-1 align-items-center" v-if="!completed">
             <div class="step" :style="{ 'background': current_step === 1 ? 'blue' : 'gray', 'width': current_step === 1 ? '6px' : '5px', 'height': current_step === 1 ? '6px' : '5px' }" style="border-radius: 50px;">&nbsp;</div>
             <div class="step" :style="{ 'background': current_step === 2 ? 'blue' : 'gray', 'width': current_step === 2 ? '6px' : '5px', 'height': current_step === 2 ? '6px' : '5px' }" style="border-radius: 50px;">&nbsp;</div>
             <div class="step" :style="{ 'background': current_step === 3 ? 'blue' : 'gray', 'width': current_step === 3 ? '6px' : '5px', 'height': current_step === 3 ? '6px' : '5px' }" style="border-radius: 50px;">&nbsp;</div>

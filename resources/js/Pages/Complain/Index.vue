@@ -30,7 +30,7 @@
                                             <span>Search: </span>
                                             <input type="text" id="search" @input="sendRequest" class="ml-2 rounded" v-model="filterParameters.keyword" style="height: 34px;">
                                         </div>
-                                        <table class="table">
+                                        <table class="table" v-if="complains.data.length">
                                             <thead>
                                                 <tr>
                                                     <th scope="col">CNIC</th>
@@ -59,6 +59,9 @@
                                                 </tr>
                                             </tbody>
                                         </table>
+                                        <div class="alert alert-danger" v-else>
+                                            <p>No Complain Found!</p>
+                                        </div>
                                     </div>
                                     <nav aria-label="Page navigation example">
                                         <ul class="pagination">
