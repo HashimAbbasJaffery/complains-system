@@ -63,7 +63,7 @@ import { Link } from '@inertiajs/vue3';
             <!-- footer -->
             <!-- ============================================================== -->
             <footer class="footer text-center">
-                Developed by Hashim Abbas
+                All Rights are reserved to Gwadargymkhana
             </footer>
             <!-- ============================================================== -->
             <!-- End footer -->

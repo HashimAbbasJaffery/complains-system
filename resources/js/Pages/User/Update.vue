@@ -93,7 +93,7 @@ const form = reactive({
 });
 
 const create = () => {
-    router.post("/admin/users", { ...form });
+    router.put(`/admin/users/${props.user.id}`, { ...form });
 }
 
 

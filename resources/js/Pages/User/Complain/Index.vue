@@ -54,7 +54,7 @@
 </style>
 
 <template>
-    <header class="d-flex justify-content-center">
+    <header class="d-flex justify-content-center py-3">
         <div class="logo d-flex align-items-center mb-5 justify-between" style="width: 60%; margin: 0 auto; background: white;">
             <img src="/assets/images/black_logo.png" width="100" alt="">
             <h1 style="font-size: 20px; font-weight: 500;">Complain Form</h1>
@@ -65,22 +65,25 @@
             <div v-if="current_step === 1" class="step step-1 mt-5" style="width: 60%; margin: 0 auto;">
                 <div class="form-group">
                     <label for="cnic">CNIC</label>
-                    <input type="text" id="cnic" v-model="cnic" class="form-control" placeholder="Enter CNIC">
+                    <div class="text-danger mb-2" v-if="errors.cnic.length">CNIC is required</div>
+                    <input type="text" id="cnic" v-model="cnic" class="form-control" :class="{ 'border border-danger': errors.cnic.length }" placeholder="Enter CNIC">
                 </div>
                 <div class="form-group">
                     <label for="membership_no">Membership Number</label>
-                    <input type="text" v-model="membership_number" class="form-control" id="membership_no" placeholder="Membership Number">
+                    <div class="text-danger mb-2" v-if="errors.membership_number.length">Membership Number is required</div>
+                    <input type="text" v-model="membership_number" :class="{ 'border border-danger': errors.membership_number.length }" class="form-control" id="membership_no" placeholder="Membership Number">
                 </div>
                 <div class="form-group">
                     <label for="membership_no">Member Name</label>
-                    <input type="text" v-model="member_name" class="form-control" id="membership_no" placeholder="Member Name" readonly>
+                    <div class="text-danger mb-2" v-if="errors.members_name.length">No Member Found!, make sure you write correct cnic and membership number</div>
+                    <input type="text" v-model="member_name" :class="{ 'border border-danger': errors.members_name.length }" class="form-control" id="membership_no" placeholder="Member Name" readonly>
                 </div>
             </div>
         </Transition>
 
         <Transition name="step-transition">
             <div class="step step-2 d-flex" v-if="current_step === 2" style="width: 60%; margin: 0 auto;">
-                <div>
+                <div style="width: 100%;">
                     <h1 style="font-size: 20px; color: black;" class="mb-2">Complain Type</h1>
                     <div class="types d-flex gap-2 flex-wrap" >
                         <div :key="type.id" v-for="type in types" @click="selectType(type.id)" class="type border border-dark p-2 rounded-md mb-1 text-center" style="width: 32.33%; cursor: pointer; color: black;">
@@ -97,7 +100,6 @@
                 <div class="questions d-flex justify-content-between flex-wrap" >
                     <div :key="question.id" @click="finalStep(question.id, question.is_relevant)" v-for="question in questions.filter(question => question.complain_type_id == complain_type_id)" class="question border border-dark py-2 px-3 rounded-md mb-3 d-flex justify-between align-items-center" style="width: 100%; cursor: pointer; color: black">
                         {{ question.question }}
-                        <i class="fa-solid fa-arrow-right"></i>
                     </div>
                 </div>
             </div>
@@ -110,6 +112,7 @@
                 </p>
             </div>
         </Transition>
+
         <Transition name="step-transition">
             <div class="step step-4" v-if="current_step === 4 && !completed && is_relevant" style="width: 60%; margin: 0 auto;">
                 <div class="mb-3">
@@ -122,11 +125,11 @@
         <Transition name="step-transition">
             <div class="thank-you text-center" v-if="completed" style="width: 60%; margin: 0 auto;">
                 <DotLottieVue
-                src="https://lottie.host/89f240ca-38d3-4ac5-9baf-ca33726e69cb/yBUZqRgh9W.lottie"
-                background="transparent"
-                speed="1"
-                style="width: 180px; height: 180px; margin: 0 auto;"
-                autoplay
+                    src="https://lottie.host/89f240ca-38d3-4ac5-9baf-ca33726e69cb/yBUZqRgh9W.lottie"
+                    background="transparent"
+                    speed="1"
+                    style="width: 180px; height: 180px; margin: 0 auto;"
+                    autoplay
                 ></DotLottieVue>
                 <p style="font-size: 20px;">We have received your complain. We will try to respond as soon as possible</p>
             </div>
@@ -147,7 +150,7 @@
 </template>
 <script setup>
 
-import { ref, Transition, watch, watchEffect } from 'vue';
+import { ref, Transition, watch, watchEffect, reactive } from 'vue';
 import { router } from '@inertiajs/vue3';
 import { DotLottieVue } from '@lottiefiles/dotlottie-vue';
 
@@ -162,6 +165,12 @@ const question_id = ref();
 const complain = ref("");
 const is_relevant = ref(false);
 const member_name = ref("");
+const errors = reactive({
+    cnic: "",
+    membership_number: "",
+    members_name: ""
+});
+const loading = ref(false);
 
 const props = defineProps({
     types: Array,
@@ -178,8 +187,20 @@ const selectType = id => {
 }
 
 const nextStep = () => {
+    errors.cnic = "";
+    errors.members_name = "";
+    errors.membership_number = "";
+    if(!cnic.value) {
+        errors.cnic = "CNIC is required"
+    }
+    if(!membership_number.value) {
+        errors.membership_number = "Membership Number is required"
+    }
     if(!cnic.value || !membership_number.value) return;
-    if(!member_name.value) return;
+    if(!member_name.value) {
+        errors.members_name = "Please Enter correct CNIC and membership number";
+        return;
+    }
     current_step.value++;
     window.scrollTo({
         top: 0,
@@ -229,6 +250,7 @@ watchEffect(async function() {
         const status = await axios.get("/members", { params: {cnic: cnic.value, membership_no: membership_number.value} });
         member_name.value = status.data.members_name;
     }
+    loading.value = false;
 })
 
 const convertNewlines = (str) => {

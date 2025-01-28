@@ -46,7 +46,7 @@
                             <div class="type">Question:</div>
                             <div class="content">{{ complain.question.question }}</div>
                         </div>
-                        <div class="row">
+                        <div class="row" style="border-bottom: 1px solid #e5e7eb !important;">
                             <div class="type">Complain:</div>
                             <div class="content" v-html="convertNewlines(complain.complain)">
                             </div>

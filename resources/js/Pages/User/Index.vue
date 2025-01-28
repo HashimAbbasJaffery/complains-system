@@ -63,7 +63,7 @@
                                 </div>
                                 <nav aria-label="Page navigation example">
                                     <ul class="pagination">
-                                        <Link :href="link.url" :style="{ 'background-color': !link.active ? '#f5f5f5' : '' }" class="page-item" v-for="link in users.links" :key="link.label"><a class="page-link" href="#" v-html="link.label"></a></Link>
+                                        <Link :href="link.url" class="page-item" v-for="link in users.links" :key="link.label"><a class="page-link" :style="{ 'background-color': link.active ? '#f5f5f5' : '' }" href="#" v-html="link.label"></a></Link>
                                     </ul>
                                 </nav>
                             </div>
