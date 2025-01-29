@@ -68,13 +68,13 @@ const deleteModal = () => {
         confirmButtonText: 'Yes, delete it!'
     }).then((result) => {
         if (result.isConfirmed) {
-            router.delete(`/admin/question/${form.id}/delete`, { preserveScroll: true })
+            router.delete(route('questions.destroy', { question: form.id }), { preserveScroll: true })
         }
     })
 }
 
 const update = () => {
-    router.put(`/admin/question/${form.id}/edit`, { ...form });
+    router.put(route('questions.update', { question: form.id }), { ...form });
     is_hidden.value = true;
 }
 

@@ -67,7 +67,7 @@ input {
                     </div>
                 </div>
                 <Link @click="create" type="button" class="btn btn-primary mt-3">Create</Link>
-                <Link href="/admin/users" type="button" class="btn btn-secondary mt-3 ml-2">Cancel</Link>
+                <Link :href="route('admin.users.index')" type="button" class="btn btn-secondary mt-3 ml-2">Cancel</Link>
             </div>
         </div>
     </div>
@@ -89,7 +89,7 @@ const form = reactive({
 });
 
 const create = () => {
-    router.post("/admin/users", { ...form });
+    router.post(route('admin.users.store'), { ...form });
 }
 
 

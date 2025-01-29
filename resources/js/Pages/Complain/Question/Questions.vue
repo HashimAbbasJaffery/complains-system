@@ -30,7 +30,7 @@
                 <div class="complain">
                     <div class="top-header d-flex justify-between items-center mb-3">
                         <h1 style="font-size: 20px; font-weight: bold;">{{ type.type }} Questions</h1>
-                        <Link :href="`/admin/question/${id}/create`" type="button" class="btn btn-primary">Create Question</Link>
+                        <Link :href="route('questions.create', { type: type.id })" type="button" class="btn btn-primary">Create Question</Link>
                     </div>
                     <div v-if="questions.length">
                         <div v-for="question in questions" :key="question.id" class="">
@@ -43,7 +43,7 @@
                         </div>
                     </div>
                 </div>
-                <Link :href="`/admin/types`" type="button" class="btn btn-primary mt-3">Go Back</Link>
+                <Link :href="route('admin.types.index')" type="button" class="btn btn-primary mt-3">Go Back</Link>
             </div>
         </div>
     </div>

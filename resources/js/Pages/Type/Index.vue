@@ -55,7 +55,7 @@
                                                     <button v-if="$page.props?.auth?.user?.admin" @click="deleteModal(type.id)" class="btn btn-danger ml-2" preserve-scroll>
                                                         <i class="fa-solid fa-trash"></i>
                                                     </button>
-                                                    <Link :href="`/admin/${type.id}/questions`" type="button" class="btn btn-info ml-2">
+                                                    <Link :href="route('admin.questions', { 'type': type.id })" type="button" class="btn btn-info ml-2">
                                                         <i class="fa-solid fa-eye"></i>
                                                     </Link>
                                                 </td>
@@ -97,12 +97,12 @@ const props = defineProps({
 
 // Debounced function to send request after typing
 const sendRequest = debounce(() => {
-    router.get("/admin/types", { ...filterParameters }, { preserveScroll: true });
+    router.get(route('admin.types.index'), { ...filterParameters }, { preserveScroll: true });
 }, 500);
 
 const filter = () => {
     // Trigger the filter with updated parameters
-    router.get("/admin/types", { ...filterParameters }, { preserveScroll: true });
+    router.get(route('admin.types.index'), { ...filterParameters }, { preserveScroll: true });
 };
 
 const reset = () => {
@@ -111,7 +111,7 @@ const reset = () => {
     filterParameters.from = "";
     filterParameters.to = "";
     // Trigger the filter with updated parameters
-    router.get("/admin/types", { ...filterParameters }, { preserveScroll: true });
+    router.get(route('admin.types.index'), { ...filterParameters }, { preserveScroll: true });
 };
 
 onMounted(() => {
@@ -130,7 +130,7 @@ const update = (type, id) => {
     autocapitalize: "off"
   },
   showCancelButton: true,
-  confirmButtonText: "Look up",
+  confirmButtonText: "Update",
   showLoaderOnConfirm: true,
   preConfirm: async (login) => {
 
@@ -138,7 +138,7 @@ const update = (type, id) => {
   allowOutsideClick: () => !Swal.isLoading()
 }).then((result) => {
   if (result.isConfirmed) {
-    router.put(`/admin/types/${id}`, { type: result.value }, { preserveScroll: true });
+    router.put(route('admin.types.update', { 'type': id }), { type: result.value }, { preserveScroll: true });
   }
 });
 }
@@ -154,7 +154,7 @@ const deleteModal = id=> {
         confirmButtonText: 'Yes, delete it!'
     }).then((result) => {
         if (result.isConfirmed) {
-            router.delete(`/admin/types/${id}`, { preserveScroll: true });
+            router.delete(route('admin.types.destroy', { 'type': id }), { preserveScroll: true });
         }
     })
 }
@@ -170,7 +170,7 @@ const create = () => {
         confirmButtonText: 'Create',
         showLoaderOnConfirm: true,
         preConfirm: async (type) => {
-            router.post('/admin/types', { type }, { preserveScroll: true });
+            router.post(route('admin.types.store'), { type }, { preserveScroll: true });
         },
         allowOutsideClick: () => !Swal.isLoading()
     })

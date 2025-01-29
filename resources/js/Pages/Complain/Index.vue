@@ -46,10 +46,10 @@
                                                     <td>{{ complain.membership_number }}</td>
                                                     <td>{{ complain.type.type }}</td>
                                                     <td>
-                                                        <Link v-if="$page.props?.auth?.user?.admin" :href="`/admin/complain/${complain.id}/highlight`" method="PUT" type="button" class="btn btn-primary" preserve-scroll>
+                                                        <Link v-if="$page.props?.auth?.user?.admin" :href="route('complain.highlight', { complain: complain.id })" method="PUT" type="button" class="btn btn-primary" preserve-scroll>
                                                             <i class="fa-solid fa-highlighter"></i>
                                                         </Link>
-                                                        <Link :href="`/admin/complains/${complain.id}`" type="button" class="btn btn-secondary ml-2">
+                                                        <Link :href="route('admin.complains.show', { complain: complain.id })" type="button" class="btn btn-secondary ml-2">
                                                             <i class="fa-solid fa-eye"></i>
                                                         </Link>
                                                         <Link v-if="$page.props?.auth?.user?.admin" @click="deleteModal(complain.id)" class="btn btn-danger ml-2" preserve-scroll>
@@ -97,12 +97,12 @@ const props = defineProps({
 
 // Debounced function to send request after typing
 const sendRequest = debounce(() => {
-    router.get("/admin/complains", { ...filterParameters }, { preserveScroll: true });
+    router.get(route('admin.complains.index'), { ...filterParameters }, { preserveScroll: true });
 }, 500);
 
 const filter = () => {
     // Trigger the filter with updated parameters
-    router.get("/admin/complains", { ...filterParameters }, { preserveScroll: true });
+    router.get(route('admin.complains.index'), { ...filterParameters }, { preserveScroll: true });
 };
 
 const reset = () => {
@@ -111,7 +111,7 @@ const reset = () => {
     filterParameters.from = "";
     filterParameters.to = "";
     // Trigger the filter with updated parameters
-    router.get("/admin/complains", { ...filterParameters }, { preserveScroll: true });
+    router.get(route('admin.complains.index'), { ...filterParameters }, { preserveScroll: true });
 };
 
 onMounted(() => {
@@ -133,7 +133,7 @@ const deleteModal = id => {
         confirmButtonText: 'Yes, delete it!'
     }).then((result) => {
         if (result.isConfirmed) {
-            router.delete(`/admin/complains/${id}`, { preserveScroll: true })
+            router.delete(route('admin.complains.destroy', { complain: id }), { preserveScroll: true })
         }
     })
 }

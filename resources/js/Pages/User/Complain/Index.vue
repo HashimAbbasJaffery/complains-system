@@ -56,7 +56,7 @@
 <template>
     <header class="d-flex justify-content-center py-3">
         <div class="logo d-flex align-items-center mb-5 justify-between" style="width: 60%; margin: 0 auto; background: white;">
-            <img src="/assets/images/black_logo.png" width="100" alt="">
+            <img src="https://gwadargymkhana.com.pk/complains/public/assets/images/black_logo.png" width="100" alt="">
             <h1 style="font-size: 20px; font-weight: 500;">Complain Form</h1>
         </div>
     </header>
@@ -150,9 +150,10 @@
 </template>
 <script setup>
 
-import { ref, Transition, watch, watchEffect, reactive } from 'vue';
+import { ref, Transition, watch, watchEffect, reactive, onMounted } from 'vue';
 import { router } from '@inertiajs/vue3';
 import { DotLottieVue } from '@lottiefiles/dotlottie-vue';
+
 
 const current_step = ref(1);
 const submission_allowed = ref(true);
@@ -224,7 +225,7 @@ const submit = () => {
         type_id: complain_type_id.value,
         question_id: question_id.value
     };
-    router.post("/complain", { ...payload }, { preserveScroll: true })
+    router.post(route('complain.submit'), { ...payload }, { preserveScroll: true })
 }
 
 watch(cnic, function(newValue) {
@@ -247,7 +248,7 @@ watch(cnic, function(newValue) {
 
 watchEffect(async function() {
     if(cnic.value && membership_number.value) {
-        const status = await axios.get("/members", { params: {cnic: cnic.value, membership_no: membership_number.value} });
+        const status = await axios.get(route('members'), { params: {cnic: cnic.value, membership_no: membership_number.value} });
         member_name.value = status.data.members_name;
     }
     loading.value = false;

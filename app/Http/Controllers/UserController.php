@@ -47,7 +47,7 @@ class UserController extends Controller
     {
         User::create($request->validated());
 
-        return to_route("users.index");
+        return to_route("admin.users.index");
     }
 
     /**
@@ -74,7 +74,7 @@ class UserController extends Controller
     public function update(UserRequest $request, User $user)
     {
         $user->update($request->validated());
-        return to_route("users.index");
+        return to_route("admin.users.index");
     }
 
     /**

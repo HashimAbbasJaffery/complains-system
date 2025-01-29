@@ -52,7 +52,7 @@
                             </div>
                         </div>
                     </div>
-                    <Link href="/admin/complains" type="button" class="btn btn-primary mt-3">Go Back</Link>
+                    <Link :href="route('admin.complains.index')" type="button" class="btn btn-primary mt-3">Go Back</Link>
                 </div>
             </div>
         </div>

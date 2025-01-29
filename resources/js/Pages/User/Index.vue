@@ -33,7 +33,7 @@
                                             <span>Search: </span>
                                             <input type="text" id="search" @input="sendRequest" class="ml-2 rounded" v-model="filterParameters.keyword" style="height: 34px;">
                                         </div>
-                                        <Link href="/admin/users/create" method="GET" type="button" class="btn btn-info">Create User</Link>
+                                        <Link :href="route('admin.users.create')" method="GET" type="button" class="btn btn-info">Create User</Link>
                                     </div>
                                     <table class="table">
                                         <thead>
@@ -50,7 +50,7 @@
                                                 <td>{{ user.fullname }}</td>
                                                 <td>{{ user.role ? "Admin" : "User" }}</td>
                                                 <td>
-                                                    <Link :href="`/admin/users/${user.id}/edit`" type="button" class="btn btn-primary" preserve-scroll>
+                                                    <Link :href="route('admin.users.edit', { user: user.id })" type="button" class="btn btn-primary" preserve-scroll>
                                                         <i class="fa-solid fa-pen-to-square"></i>
                                                     </Link>
                                                     <button @click="deleteModal(user.id)" class="btn btn-danger ml-2" preserve-scroll v-if="$page.props?.auth?.user?.admin">
@@ -95,12 +95,12 @@ const props = defineProps({
 
 // Debounced function to send request after typing
 const sendRequest = debounce(() => {
-    router.get("/admin/users", { ...filterParameters }, { preserveScroll: true });
+    router.get(route('admin.users.index'), { ...filterParameters }, { preserveScroll: true });
 }, 500);
 
 const filter = () => {
     // Trigger the filter with updated parameters
-    router.get("/admin/users", { ...filterParameters }, { preserveScroll: true });
+    router.get(route("admin.users.index"), { ...filterParameters }, { preserveScroll: true });
 };
 
 const reset = () => {
@@ -109,7 +109,7 @@ const reset = () => {
     filterParameters.from = "";
     filterParameters.to = "";
     // Trigger the filter with updated parameters
-    router.get("/admin/users", { ...filterParameters }, { preserveScroll: true });
+    router.get(route("admin.users.index"), { ...filterParameters }, { preserveScroll: true });
 };
 
 onMounted(() => {
@@ -152,7 +152,7 @@ const deleteModal = id=> {
         confirmButtonText: 'Yes, delete it!'
     }).then((result) => {
         if (result.isConfirmed) {
-            router.delete(`/admin/users/${id}`, { preserveScroll: true });
+            router.delete(route('admin.users.destroy', { user: id }), { preserveScroll: true });
         }
     })
 }

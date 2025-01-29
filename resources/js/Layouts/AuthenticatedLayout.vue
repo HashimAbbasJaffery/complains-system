@@ -19,27 +19,28 @@ import { Link } from '@inertiajs/vue3';
                 <!-- Sidebar navigation-->
                 <nav class="sidebar-nav">
                     <ul id="sidebarnav">
-                        <img src="/assets/images/card_logo.png" alt="homepage" class="dark-logo" />
+                        <img src="https://gwadargymkhana.com.pk/complains/public/assets/images/card_logo.png" alt="homepage" class="dark-logo" />
+                        
                         <li class="sidebar-item">
-                            <Link href="/admin/complains"  :class="{ 'active': ['Complain/Index', 'Complain/Single'].includes($page.component) }" class="sidebar-link waves-effect waves-dark sidebar-link" aria-expanded="true">
+                            <Link :href="route('admin.complains.index')"  :class="{ 'active': ['Complain/Index', 'Complain/Single'].includes($page.component) }" class="sidebar-link waves-effect waves-dark sidebar-link" aria-expanded="true">
                                 <i class="fa-solid fa-circle-exclamation"></i>
                                 <span class="hide-menu">Complains</span>
                             </Link>
                         </li>
                         <li class="sidebar-item">
-                            <Link href="/admin/types"  :class="{ 'active': ['Type/Index', 'Complain/Question/Questions', 'Complain/Question/Add'].includes($page.component) }" class="sidebar-link waves-effect waves-dark sidebar-link" aria-expanded="false">
+                            <Link :href="route('admin.types.index')"  :class="{ 'active': ['Type/Index', 'Complain/Question/Questions', 'Complain/Question/Add'].includes($page.component) }" class="sidebar-link waves-effect waves-dark sidebar-link" aria-expanded="false">
                                 <i class="fa-solid fa-list"></i>
                                 <span class="hide-menu">Types</span>
                             </Link>
                         </li>
                         <li class="sidebar-item">
-                            <Link href="/admin/users" :class="{ 'active': ['User/Index', 'User/Add', 'User/Update'].includes($page.component) }" class="sidebar-link waves-effect waves-dark sidebar-link" aria-expanded="false">
+                            <Link :href="route('admin.users.index')" :class="{ 'active': ['User/Index', 'User/Add', 'User/Update'].includes($page.component) }" class="sidebar-link waves-effect waves-dark sidebar-link" aria-expanded="false">
                                 <i class="fa-solid fa-user"></i>
                                 <span class="hide-menu">Users</span>
                             </Link>
                         </li>
                     </ul>
-                    <Link method="POST" href="/logout" class="btn btn-danger mt-3 rounded-md" style="width: 90%; background: #fa5838 !important; margin-left: 5%;">
+                    <Link method="POST" :href="route('logout')" class="btn btn-danger mt-3 rounded-md" style="width: 90%; background: #fa5838 !important; margin-left: 5%;">
                         <span class="mr-3">Logout</span>
                         <i class="fa-solid fa-right-from-bracket"></i>
                     </Link>
