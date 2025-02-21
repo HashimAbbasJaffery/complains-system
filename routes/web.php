@@ -59,18 +59,18 @@ Route::middleware(['auth'])->group(function () {
     Route::put("/admin/complain/{complain}/highlight", [ComplainController::class, "highlight"])->name("complain.highlight");
 });
 
-Route::get("/complain", [\App\Http\Controllers\User\ComplainController::class, "index"])->name("complain.index");
-Route::post("/complain", [\App\Http\Controllers\User\ComplainController::class, "store"])->name("complain.submit");
+Route::get("/", [\App\Http\Controllers\User\ComplainController::class, "index"])->name("complain.index");
+Route::post("/", [\App\Http\Controllers\User\ComplainController::class, "store"])->name("complain.submit");
 
 
-Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
-});
+// Route::get('/', function () {
+//     return Inertia::render('Welcome', [
+//         'canLogin' => Route::has('login'),
+//         'canRegister' => Route::has('register'),
+//         'laravelVersion' => Application::VERSION,
+//         'phpVersion' => PHP_VERSION,
+//     ]);
+// });
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');

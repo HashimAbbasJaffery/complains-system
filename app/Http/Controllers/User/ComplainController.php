@@ -13,6 +13,7 @@ use Inertia\Inertia;
 class ComplainController extends Controller
 {
     public function index() {
+        
         $types = ComplainType::all();
         $questions = Question::all();
         return Inertia::render("User/Complain/Index", [

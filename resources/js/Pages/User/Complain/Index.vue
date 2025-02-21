@@ -1,11 +1,11 @@
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
 
-.type {
+.type-option {
     transition: 0.5s;
 }
 
-.type:hover {
+.type-option:hover {
     transform: scale(1.04);
     border: 1px solid green;
     background-color: rgb(233, 233, 233);
@@ -16,7 +16,7 @@
         display: flex;
         flex-direction: column;
     }
-    .type {
+    .type-option {
         width: 100% !important;
     }
     .step {
@@ -86,7 +86,7 @@
                 <div style="width: 100%;">
                     <h1 style="font-size: 20px; color: black;" class="mb-2">Complain Type</h1>
                     <div class="types d-flex gap-2 flex-wrap" >
-                        <div :key="type.id" v-for="type in types" @click="selectType(type.id)" class="type border border-dark p-2 rounded-md mb-1 text-center" style="width: 32.33%; cursor: pointer; color: black;">
+                        <div :key="type.id" v-for="type in types" @click="selectType(type.id)" class="type-option border border-dark p-2 rounded-md mb-1 text-center" style="width: 32.33%; cursor: pointer; color: black;">
                             {{ type.type }}
                         </div>
                     </div>
@@ -108,13 +108,14 @@
         <Transition name="step-transition">
             <div class="step-4" v-if="current_step === 4 && !is_relevant" style="width: 60%; margin: 0 auto;">
                 <h1 style="font-size: 20px; font-weight: 500;" class="mb-3">{{ questions.filter(quest => quest.id == question_id)[0].question }}</h1>
-                <p v-html="convertNewlines(questions.filter(quest => quest.id == question_id)[0].answer)">
+                <p v-html="`Answer: ${convertNewlines(questions.filter(quest => quest.id == question_id)[0].answer)}`">
                 </p>
             </div>
         </Transition>
 
         <Transition name="step-transition">
             <div class="step step-4" v-if="current_step === 4 && !completed && is_relevant" style="width: 60%; margin: 0 auto;">
+                <h1 style="font-size: 20px; font-weight: 500;" class="mb-3">{{ questions.filter(quest => quest.id == question_id)[0].question }}</h1>
                 <div class="mb-3">
                     <label for="complain" class="form-label">Write Complain</label>
                     <textarea class="form-control rounded-md" style="border: 1px solid black; height: 200px; resize: none" v-model="complain" id="complain" rows="3"></textarea>
@@ -137,7 +138,7 @@
 
         <div class="actions d-flex gap-2 mt-3" style="width: 60%; margin: 0 auto;" v-if="!completed">
             <button type="button" v-if="current_step > 1" @click="current_step--" style="width: 100%" class="btn btn-info">Previous</button>
-            <button type="button" @click="nextStep" v-if="current_step <= 1" style="width: 100%" class="btn btn-info">Next</button>
+            <button type="button" @click="nextStep" v-if="current_step <= 1" style="width: 100%" class="btn btn-info" :disabled="loading">{{ loading ? 'Searching...' : 'Next' }}</button>
             <button type="button" @click="submit" v-if="current_step === 4 && submission_allowed && is_relevant" style="width: 100%" class="btn btn-info">Submit</button>
         </div>
         <div class="steps mx-auto mt-3 d-flex gap-1 align-items-center" v-if="!completed">
@@ -150,7 +151,7 @@
 </template>
 <script setup>
 
-import { ref, Transition, watch, watchEffect, reactive, onMounted } from 'vue';
+import { ref, Transition, watch, watchEffect, reactive } from 'vue';
 import { router } from '@inertiajs/vue3';
 import { DotLottieVue } from '@lottiefiles/dotlottie-vue';
 
@@ -245,14 +246,36 @@ watch(cnic, function(newValue) {
         cnic.value = formattedCnic;
     }
 });
+// Custom debounce function
+function debounce(fn, delay) {
+    let timer;
+    return (...args) => {
+        clearTimeout(timer);
+        timer = setTimeout(() => fn(...args), delay);
+    };
+}
 
-watchEffect(async function() {
-    if(cnic.value && membership_number.value) {
-        const status = await axios.get(route('members'), { params: {cnic: cnic.value, membership_no: membership_number.value} });
-        member_name.value = status.data.members_name;
+// Debounced function
+const fetchMemberData = debounce(async () => {
+    if (!cnic.value || !membership_number.value) return;
+
+    loading.value = true;
+
+    try {
+        const response = await axios.get(route("members"), {
+            params: { cnic: cnic.value, membership_no: membership_number.value }
+        });
+
+        member_name.value = response.data.members_name;
+    } catch (error) {
+        console.error("Error fetching member data:", error);
+    } finally {
+        loading.value = false;
     }
-    loading.value = false;
-})
+}, 700);
+
+// Watch for changes in `cnic` and `membership_number`
+watch([cnic, membership_number], fetchMemberData);
 
 const convertNewlines = (str) => {
     return str.replace(/\n/g, "<br>");
